@@ -2,6 +2,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Amogh &amp; Helene - Wedding Celebration</title>
+    <link rel="preload" as="image" href="photos/hero.jpg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&amp;family=Montserrat:wght@300;400;500&amp;display=swap" rel="stylesheet">
@@ -669,9 +670,7 @@
         <div class="floral-bg floral-bottom-right"></div>
 
         <div class="hero-photo-container">
-            <div class="hero-photo-placeholder" id="heroPhotoPlaceholder">
-                Add your photo:<br>photos/hero.jpg
-            </div>
+            <img src="photos/hero.jpg" alt="Amogh and Helene" class="hero-photo" loading="eager">
         </div>
 
         <div class="hero-content">
@@ -869,23 +868,7 @@
             observer.observe(el);
         });
 
-        // Try to load hero photo
-        const heroPlaceholder = document.getElementById('heroPhotoPlaceholder');
-        const heroImg = new Image();
-        heroImg.src = 'photos/hero.jpg';
-
-        heroImg.onload = function() {
-            heroImg.className = 'hero-photo';
-            heroImg.style.opacity = '0';
-            heroPlaceholder.parentElement.appendChild(heroImg);
-            heroPlaceholder.style.display = 'none';
-            setTimeout(() => {
-                heroImg.style.transition = 'opacity 0.5s ease';
-                heroImg.style.opacity = '1';
-            }, 100);
-        };
-
-        // Gallery photos are already loaded in HTML
+        // Hero photo and gallery photos are already loaded in HTML
     </script>
 
 
