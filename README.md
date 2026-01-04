@@ -44,27 +44,29 @@ Replace `YOUR_PHONE_NUMBER` with your WhatsApp number in international format (n
 
 Create three different invitation links for different guest groups:
 
-**All 3 events (Haldi + Western + Indian):**
+**VIP - All 3 events (Haldi + Western + Indian):**
 ```
-index.html?dp=560&name=Guest%20Name
-```
-
-**2 events (Western + Indian only):**
-```
-index.html?dp=561&name=Guest%20Name
+vip?name=Guest%20Name
 ```
 
-**1 event (Indian ceremony only):**
+**Friends - 2 events (Western + Indian only):**
 ```
-index.html?dp=562&name=Guest%20Name
+friends?name=Guest%20Name
+```
+
+**Wedding - 1 event (Indian ceremony only):**
+```
+wedding?name=Guest%20Name
 ```
 
 Replace `Guest%20Name` with the actual guest's name (use `%20` for spaces).
 
 **Examples:**
-- `index.html?dp=560&name=Sarah%20and%20John`
-- `index.html?dp=561&name=The%20Smiths`
-- `index.html?dp=562&name=Priya`
+- `vip?name=Sarah%20and%20John`
+- `friends?name=The%20Smiths`
+- `wedding?name=Priya`
+
+**Note:** If someone accesses the base URL without a specific invitation path, they'll see a message asking them to use their personalized link.
 
 ## Deployment Options
 
@@ -92,11 +94,22 @@ Replace `Guest%20Name` with the actual guest's name (use `%20` for spaces).
 
 ## Testing Locally
 
-To test the website on your computer:
+To test the website on your computer, you'll need to run a local web server (paths won't work with file:// protocol):
 
-1. Simply open `index.html` in your web browser
-2. To test different invitation types, append the URL parameters:
-   - `file:///path/to/index.html?dp=560&name=Test`
+**Option 1 - Python:**
+```bash
+python3 -m http.server 8000
+```
+Then visit:
+- `http://localhost:8000/vip?name=Test`
+- `http://localhost:8000/friends?name=Test`
+- `http://localhost:8000/wedding?name=Test`
+
+**Option 2 - Node.js:**
+```bash
+npx serve
+```
+Then visit the URLs shown in terminal with `/vip`, `/friends`, or `/wedding` paths.
 
 ## Customization
 
@@ -121,12 +134,12 @@ The color palette can be customized in the `:root` CSS variables at the top of `
 ### Typography
 
 The site uses two beautiful fonts from Google Fonts:
-- **Crimson Pro** - Elegant serif for headings
-- **DM Sans** - Clean sans-serif for body text
+- **Cormorant Garamond** - Elegant serif for headings
+- **Montserrat** - Clean sans-serif for body text
 
 ### Event Details
 
-Event information is defined in the JavaScript section (around line 665). You can update dates, times, or locations there if needed.
+Event information is defined in the JavaScript section (around line 742). You can update dates, times, or locations there if needed.
 
 ## Structure
 
