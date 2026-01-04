@@ -51,6 +51,28 @@
             50% { transform: rotate(2deg); }
         }
 
+        /* RSVP Link */
+        .rsvp-link {
+            position: fixed;
+            top: 25px;
+            right: 80px;
+            z-index: 1000;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--sage-green);
+            text-decoration: none;
+            letter-spacing: 0.05em;
+            transition: all 0.3s ease;
+            opacity: 0.7;
+        }
+
+        .rsvp-link:hover {
+            opacity: 1;
+            color: var(--text-dark);
+            transform: translateY(-1px);
+        }
+
         /* Floral Background Elements */
         .floral-bg {
             position: absolute;
@@ -617,6 +639,12 @@
                 font-size: 2rem;
             }
 
+            .rsvp-link {
+                top: 20px;
+                right: 60px;
+                font-size: 0.75rem;
+            }
+
             .hero {
                 min-height: 70vh;
                 padding: 1.5rem 1.5rem 0 1.5rem;
@@ -662,6 +690,7 @@
 <body>
     <!-- Animated Palm Tree -->
     <div class="palm-tree">🌴</div>
+    <a href="#rsvp" class="rsvp-link">RSVP</a>
 
     <!-- Hero Section -->
     <section class="hero">
@@ -692,7 +721,7 @@
     </section>
 
     <!-- RSVP Section -->
-    <section class="rsvp">
+    <section class="rsvp" id="rsvp">
         <div class="rsvp-content visible">
             <h2 class="rsvp-title">See You There?</h2>
             <p class="rsvp-message">
