@@ -46,25 +46,25 @@ Create three different invitation links for different guest groups:
 
 **VIP - All 3 events (Haldi + Western + Indian):**
 ```
-vip?name=Guest%20Name
+vip/Guest%20Name
 ```
 
 **Friends - 2 events (Western + Indian only):**
 ```
-friends?name=Guest%20Name
+friends/Guest%20Name
 ```
 
 **Wedding - 1 event (Indian ceremony only):**
 ```
-wedding?name=Guest%20Name
+wedding/Guest%20Name
 ```
 
 Replace `Guest%20Name` with the actual guest's name (use `%20` for spaces).
 
 **Examples:**
-- `vip?name=Sarah%20and%20John`
-- `friends?name=The%20Smiths`
-- `wedding?name=Priya`
+- `vip/Sarah%20and%20John`
+- `friends/The%20Smiths`
+- `wedding/Priya`
 
 **Note:** If someone accesses the base URL without a specific invitation path, they'll see a message asking them to use their personalized link.
 
@@ -101,15 +101,15 @@ To test the website on your computer, you'll need to run a local web server (pat
 python3 -m http.server 8000
 ```
 Then visit:
-- `http://localhost:8000/vip?name=Test`
-- `http://localhost:8000/friends?name=Test`
-- `http://localhost:8000/wedding?name=Test`
+- `http://localhost:8000/vip/Test`
+- `http://localhost:8000/friends/Test`
+- `http://localhost:8000/wedding/Test`
 
 **Option 2 - Node.js:**
 ```bash
 npx serve
 ```
-Then visit the URLs shown in terminal with `/vip`, `/friends`, or `/wedding` paths.
+Then visit the URLs shown in terminal with `/vip/Name`, `/friends/Name`, or `/wedding/Name` paths.
 
 ## Customization
 

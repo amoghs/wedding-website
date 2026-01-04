@@ -741,20 +741,13 @@
     </footer>
 
     <script>
-        // Parse URL path and parameters
-        const urlParams = new URLSearchParams(window.location.search);
-        const guestName = urlParams.get('name');
+        // Parse URL path to extract invitation type and guest name
         const pathname = window.location.pathname;
+        const pathParts = pathname.split('/').filter(part => part.length > 0);
 
-        // Determine invitation type from path
-        let inviteType = '';
-        if (pathname.includes('/vip')) {
-            inviteType = 'vip';
-        } else if (pathname.includes('/friends')) {
-            inviteType = 'friends';
-        } else if (pathname.includes('/wedding')) {
-            inviteType = 'wedding';
-        }
+        // First part is invitation type, second part (if exists) is guest name
+        const inviteType = pathParts[0] || '';
+        const guestName = pathParts[1] ? decodeURIComponent(pathParts[1]) : '';
 
         // Event data
         const events = {
