@@ -420,7 +420,7 @@
         .event-info-row a {
             color: var(--event-color);
             text-decoration: none;
-            font-weight: 500;
+            font-weight: 400;
         }
 
         .event-info-row a:hover {
@@ -501,7 +501,7 @@
             margin-top: 0.35rem;
             cursor: pointer;
             font-size: 0.9rem;
-            font-weight: 500;
+            font-weight: 400;
             color: var(--event-color);
             transition: opacity 0.2s;
         }
@@ -1130,7 +1130,7 @@
 
                 // Where row: add parking callout if present
                 const whereValue = hasParking
-                    ? `${event.location} · <a href="${event.link}" target="_blank">Map →</a><br><a class="flip-link" onclick="flipCard(this.closest('.event-card-wrapper'))">ℹ️ ${event.parking.summary} More info →</a>`
+                    ? `${event.location} · <a href="${event.link}" target="_blank">Map →</a><br><a class="flip-link" onclick="flipCard(this.closest('.event-card-wrapper'))">${event.parking.summary} More info →</a>`
                     : `${event.location} · <a href="${event.link}" target="_blank">Map →</a>`;
 
                 const headerHTML = `
