@@ -452,8 +452,8 @@
         }
 
         .event-card-wrapper.flipping .event-card {
-            transform: perspective(800px) rotateY(90deg) scale(0.95);
-            opacity: 0;
+            transform: perspective(800px) rotateY(90deg) scale(0.95) !important;
+            opacity: 0 !important;
         }
 
         .card-back {
@@ -1188,6 +1188,13 @@
                             </div>
                         </div>
                     `;
+
+                    // Clear entrance animation after it finishes so flip transitions work
+                    card.addEventListener('animationend', () => {
+                        card.style.animation = 'none';
+                        card.style.opacity = '1';
+                        card.style.transform = 'none';
+                    }, { once: true });
 
                     wrapper.appendChild(card);
                     eventsGrid.appendChild(wrapper);
