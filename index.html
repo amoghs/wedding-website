@@ -290,21 +290,19 @@
 
         .events-grid {
             display: grid;
-            gap: 1.5rem;
-            margin-top: 2rem;
+            gap: 1.25rem;
+            margin-top: 1.5rem;
         }
 
         .event-card {
-            background: white;
-            border: 1px solid rgba(139, 157, 131, 0.2);
-            border-radius: 8px;
-            padding: 2rem;
+            border-radius: 14px;
+            padding: 2rem 2rem 1.75rem;
             position: relative;
             overflow: hidden;
             opacity: 0;
             transform: translateY(30px);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
+            border: none;
         }
 
         .event-card.visible {
@@ -312,23 +310,53 @@
         }
 
         .event-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 30px rgba(139, 157, 131, 0.2);
+            transform: translateY(-4px);
         }
 
-        .event-card::before {
-            content: '';
+        /* Decorative watermark emoji */
+        .event-card::after {
+            content: attr(data-watermark);
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(to right, var(--event-color), transparent);
+            bottom: -10px;
+            right: -5px;
+            font-size: 7rem;
+            opacity: 0.08;
+            pointer-events: none;
+            line-height: 1;
         }
 
-        .event-card.haldi { --event-color: var(--sage-green); }
-        .event-card.western { --event-color: var(--terracotta); }
-        .event-card.indian { --event-color: var(--gold); }
+        /* Haldi:sunny turmeric */
+        .event-card.haldi {
+            --event-color: #B8860B;
+            --event-color-light: #D4A017;
+            background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
+            box-shadow: 0 6px 24px rgba(253, 230, 138, 0.5), 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .event-card.haldi:hover {
+            box-shadow: 0 12px 36px rgba(253, 230, 138, 0.6), 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        /* Western:rosy blush */
+        .event-card.western {
+            --event-color: #B85C42;
+            --event-color-light: #C97557;
+            background: linear-gradient(135deg, #FDE8E4 0%, #F5CFC6 100%);
+            box-shadow: 0 6px 24px rgba(245, 207, 198, 0.5), 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .event-card.western:hover {
+            box-shadow: 0 12px 36px rgba(245, 207, 198, 0.6), 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        /* Indian:warm saffron */
+        .event-card.indian {
+            --event-color: #B8860B;
+            --event-color-light: #D4AF37;
+            background: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 100%);
+            box-shadow: 0 6px 24px rgba(255, 224, 178, 0.5), 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .event-card.indian:hover {
+            box-shadow: 0 12px 36px rgba(255, 224, 178, 0.6), 0 4px 12px rgba(0,0,0,0.08);
+        }
 
         .event-card.haldi:nth-child(1) { animation-delay: 0.05s; }
         .event-card.western:nth-child(2) { animation-delay: 0.1s; }
@@ -338,57 +366,267 @@
             display: none;
         }
 
-        .event-emoji {
-            font-size: 2.5rem;
+        .event-header {
+            display: flex;
+            align-items: baseline;
+            gap: 0.5rem;
             margin-bottom: 0.75rem;
-            display: block;
         }
 
-        .event-dress-code {
-            margin-top: 1rem;
-            padding: 0.875rem;
-            background: var(--cream);
-            border-radius: 6px;
-            font-size: 0.875rem;
+        .event-emoji {
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+
+        .event-info-block {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(4px);
+            border-radius: 10px;
+            padding: 1rem 1.1rem;
+            display: grid;
+            gap: 0.6rem;
+        }
+
+        .event-info-row {
+            display: flex;
+            align-items: baseline;
+            gap: 0.6rem;
+            font-size: 0.9rem;
             color: var(--text-dark);
         }
 
-        .event-dress-code strong {
+        .event-info-row .info-icon {
+            font-size: 0.9rem;
+            flex-shrink: 0;
+            width: 1.25rem;
+            text-align: center;
+        }
+
+        .event-info-row .info-label {
+            font-weight: 500;
+            min-width: 5.5rem;
+            flex-shrink: 0;
             color: var(--event-color);
-            display: block;
-            margin-bottom: 0.4rem;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .event-info-row .info-value {
+            flex: 1;
+            color: #1a1a1a;
+        }
+
+        .event-info-row a {
+            color: var(--event-color);
+            text-decoration: none;
             font-weight: 500;
         }
 
-        .event-date {
-            font-family: 'Montserrat', sans-serif;
+        .event-info-row a:hover {
+            opacity: 0.7;
+        }
+
+        .event-info-divider {
+            height: 1px;
+            background: rgba(0, 0, 0, 0.06);
+            margin: 0;
+        }
+
+        .event-note-inline {
+            padding: 0.6rem 0.85rem;
+            background: rgba(255, 255, 255, 0.5);
+            border-left: 3px solid var(--event-color-light, var(--sage-green));
+            border-radius: 0 8px 8px 0;
             font-size: 0.85rem;
-            color: var(--event-color);
-            margin-bottom: 0.5rem;
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
+            font-style: italic;
+            color: var(--text-light);
+            line-height: 1.5;
+            margin-top: 0.6rem;
+        }
+
+        /* Card flip animation */
+        .event-card-wrapper .event-card {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            transform-origin: center center;
+        }
+
+        .event-card-wrapper.flipping .event-card {
+            transform: perspective(800px) rotateY(90deg) scale(0.95);
+            opacity: 0;
+        }
+
+        .card-back {
+            display: none;
+        }
+
+        .event-card-wrapper.flipped .card-front {
+            display: none;
+        }
+
+        .event-card-wrapper.flipped .card-back {
+            display: block;
+        }
+
+        /* Schedule table in When row */
+        .schedule-table {
+            margin-top: 0.35rem;
+            border-collapse: collapse;
+        }
+
+        .schedule-table td {
+            padding: 0.15rem 0;
+            font-size: 0.8rem;
+            color: #1a1a1a;
+            vertical-align: top;
+        }
+
+        .schedule-table .sched-time {
+            color: #1a1a1a;
+            font-weight: 600;
+            padding-right: 0.75rem;
+            white-space: nowrap;
+        }
+
+        .schedule-note {
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+            font-style: italic;
+            color: var(--text-light);
+        }
+
+        /* Flip link in Where row */
+        .flip-link {
+            display: inline-block;
+            margin-top: 0.35rem;
+            cursor: pointer;
+            font-size: 0.9rem;
             font-weight: 500;
+            color: var(--event-color);
+            transition: opacity 0.2s;
+        }
+
+        .flip-link:hover {
+            opacity: 0.7;
+        }
+
+        /* Back button on flip side */
+        .flip-back-button {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.35rem 0.75rem;
+            margin-bottom: 0.75rem;
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--event-color);
+            transition: all 0.2s;
+        }
+
+        .flip-back-button:hover {
+            background: rgba(255, 255, 255, 0.75);
+        }
+
+        .card-back-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: #1a1a1a;
+            margin-bottom: 0.75rem;
+        }
+
+        .arrival-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        @media (max-width: 500px) {
+            .arrival-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .arrival-col {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(4px);
+            border-radius: 8px;
+            padding: 0.5rem 0.75rem;
+        }
+
+        .arrival-col-heading {
+            font-weight: 500;
+            color: var(--text-dark);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.25rem;
+        }
+
+        .arrival-col ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .arrival-col ul li {
+            padding: 0.1rem 0;
+            color: var(--text-light);
+            font-size: 0.75rem;
+            line-height: 1.4;
+        }
+
+        .arrival-notes {
+            font-size: 0.85rem;
+            color: #333;
+            line-height: 1.5;
+            margin-bottom: 0.75rem;
+        }
+
+        .arrival-notes p {
+            margin-bottom: 0.4rem;
+        }
+
+        .arrival-notes p:last-child {
+            margin-bottom: 0;
+        }
+
+        .arrival-map {
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .arrival-map img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 6px;
         }
 
         .event-title {
             font-family: 'Cormorant Garamond', serif;
             font-size: 1.6rem;
             color: var(--text-dark);
-            margin-bottom: 0.75rem;
             font-weight: 500;
         }
 
         .event-time {
             color: var(--text-light);
-            margin-bottom: 0.75rem;
-            font-size: 0.95rem;
+            margin-bottom: 0.35rem;
+            font-size: 0.85rem;
         }
 
         .event-location {
             display: flex;
             align-items: flex-start;
-            gap: 0.5rem;
-            margin-top: 1rem;
+            gap: 0.4rem;
+            margin-top: 0.5rem;
         }
 
         .event-location-icon {
@@ -403,10 +641,10 @@
 
         .event-link {
             display: inline-block;
-            margin-top: 0.5rem;
+            margin-top: 0.25rem;
             color: var(--event-color);
             text-decoration: none;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             transition: opacity 0.2s ease;
         }
 
@@ -415,11 +653,11 @@
         }
 
         .event-note {
-            margin-top: 1rem;
-            padding: 1rem;
+            margin-top: 0.6rem;
+            padding: 0.5rem 0.75rem;
             background: var(--cream);
             border-left: 3px solid var(--sage-green);
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             color: var(--text-light);
             font-style: italic;
         }
@@ -671,7 +909,7 @@
             }
 
             .event-card {
-                padding: 2rem 1.5rem;
+                padding: 1.5rem 1.25rem;
             }
 
             .gallery-grid {
@@ -773,6 +1011,18 @@
     </footer>
 
     <script>
+        // Flip card animation
+        function flipCard(wrapper) {
+            if (wrapper.dataset.flipping) return;
+            wrapper.dataset.flipping = '1';
+            wrapper.classList.add('flipping');
+            setTimeout(() => {
+                wrapper.classList.toggle('flipped');
+                wrapper.classList.remove('flipping');
+                setTimeout(() => { delete wrapper.dataset.flipping; }, 350);
+            }, 300);
+        }
+
         // Parse URL path to extract invitation type and guest name
         const pathname = window.location.pathname;
         const pathParts = pathname.split('/').filter(part => part.length > 0);
@@ -804,6 +1054,24 @@
                 link: 'https://share.google/fhZjVlDqaahowCCKu',
                 note: 'We will have an after party at our place 🕺',
                 dressCode: 'Semi-formal to formal. Suits, dresses, or cocktail attire.',
+                schedule: [
+                    { time: '9:30 AM', label: 'Shuttle service starts' },
+                    { time: '9:45 AM', label: 'Bridal party arrives' },
+                    { time: '10:00 AM', label: 'Ceremony' },
+                    { time: '10:15 AM', label: 'Shuttle service ends' },
+                    { time: '2:45 PM', label: 'Farewells' },
+                    { time: '3:00 PM', label: 'Close' }
+                ],
+                parking: {
+                    summary: 'Park nearby + free shuttle to venue.',
+                    notes: [
+                        'A traffic steward will direct cars to Car Park 4, located on Middle Head Road, 200m past Chowder Bay Road on the right.',
+                        'A shuttle will take guests from Car Park 4 to the venue in small groups, starting 30 mins before the ceremony.',
+                        'Shuttles will also run at the end to take guests back to the car park.',
+                        'Taxis can proceed directly to the venue. Guests will need to arrange their own taxis for departure.'
+                    ],
+                    mapImage: '/photos/sergeants-mess-map.jpg'
+                },
                 class: 'western'
             },
             indian: {
@@ -849,28 +1117,87 @@
             // Render events
             const eventsGrid = document.getElementById('eventsGrid');
             eventsToShow.forEach(event => {
-                const card = document.createElement('div');
-                card.className = `event-card ${event.class}`;
-                card.innerHTML = `
-                    <div class="event-number">${event.number}</div>
-                    <span class="event-emoji">${event.emoji}</span>
-                    <div class="event-date">${event.date}</div>
-                    <h3 class="event-title">${event.title}</h3>
-                    <div class="event-time">${event.time}</div>
-                    <div class="event-location">
-                        <span class="event-location-icon">📍</span>
-                        <div>
-                            <div class="event-location-text">${event.location}</div>
-                            <a href="${event.link}" target="_blank" class="event-link">View on Google Maps →</a>
-                        </div>
-                    </div>
-                    ${event.note ? `<div class="event-note">${event.note}</div>` : ''}
-                    <div class="event-dress-code">
-                        <strong>Dress Code</strong>
-                        ${event.dressCode}
+                const hasParking = !!event.parking;
+
+                // When row: include schedule if present
+                const scheduleHTML = event.schedule
+                    ? `<table class="schedule-table">${event.schedule.map(s => `<tr><td class="sched-time">${s.time}</td><td class="sched-label">${s.label}</td></tr>`).join('')}</table>`
+                    : '';
+                const noteHTML = event.note ? `<div class="schedule-note">${event.note}</div>` : '';
+                const whenValue = event.schedule
+                    ? `${event.date}${scheduleHTML}${noteHTML}`
+                    : `${event.date}, ${event.time}`;
+
+                // Where row: add parking callout if present
+                const whereValue = hasParking
+                    ? `${event.location} · <a href="${event.link}" target="_blank">Map →</a><br><a class="flip-link" onclick="flipCard(this.closest('.event-card-wrapper'))">ℹ️ ${event.parking.summary} More info →</a>`
+                    : `${event.location} · <a href="${event.link}" target="_blank">Map →</a>`;
+
+                const headerHTML = `
+                    <div class="event-header">
+                        <span class="event-emoji">${event.emoji}</span>
+                        <h3 class="event-title">${event.title}</h3>
                     </div>
                 `;
-                eventsGrid.appendChild(card);
+
+                const infoBlockHTML = `
+                    <div class="event-info-block">
+                        <div class="event-info-row">
+                            <span class="info-icon">🕐</span>
+                            <span class="info-label">When</span>
+                            <span class="info-value">${whenValue}</span>
+                        </div>
+                        <div class="event-info-divider"></div>
+                        <div class="event-info-row">
+                            <span class="info-icon">📍</span>
+                            <span class="info-label">Where</span>
+                            <span class="info-value">${whereValue}</span>
+                        </div>
+                        <div class="event-info-divider"></div>
+                        <div class="event-info-row">
+                            <span class="info-icon">👗</span>
+                            <span class="info-label">Wear</span>
+                            <span class="info-value">${event.dressCode}</span>
+                        </div>
+                    </div>
+                `;
+
+                if (hasParking) {
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'event-card-wrapper';
+
+                    const card = document.createElement('div');
+                    card.className = `event-card ${event.class}`;
+                    card.setAttribute('data-watermark', event.emoji);
+
+                    card.innerHTML = `
+                        <div class="card-front">
+                            ${headerHTML}
+                            ${infoBlockHTML}
+                        </div>
+                        <div class="card-back">
+                            <button class="flip-back-button" onclick="flipCard(this.closest('.event-card-wrapper'))">
+                                ← Back
+                            </button>
+                            <div class="card-back-title">🚗 Parking & Shuttles</div>
+                            <div class="arrival-notes">
+                                ${event.parking.notes.map(n => `<p>${n}</p>`).join('')}
+                            </div>
+                            <div class="arrival-map">
+                                <img src="${event.parking.mapImage}" alt="Venue map showing parking and shuttle route" loading="lazy">
+                            </div>
+                        </div>
+                    `;
+
+                    wrapper.appendChild(card);
+                    eventsGrid.appendChild(wrapper);
+                } else {
+                    const card = document.createElement('div');
+                    card.className = `event-card ${event.class}`;
+                    card.setAttribute('data-watermark', event.emoji);
+                    card.innerHTML = `${headerHTML}${infoBlockHTML}`;
+                    eventsGrid.appendChild(card);
+                }
             });
         }
 
