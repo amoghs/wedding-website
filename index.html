@@ -665,14 +665,14 @@
 
         /* Today highlight */
         .event-today {
-            box-shadow: 0 0 0 2px var(--gold), 0 8px 32px rgba(212, 175, 55, 0.2);
+            box-shadow: 0 0 0 2px rgba(255,255,255,0.8), 0 8px 32px rgba(0, 0, 0, 0.08);
             transform: scale(1.02);
         }
         .event-today-badge {
             display: inline-block;
-            background: linear-gradient(110deg, var(--gold) 0%, var(--gold) 40%, #f0dc82 50%, var(--gold) 60%, var(--gold) 100%);
+            background: linear-gradient(110deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.7) 40%, rgba(255,255,255,0.95) 50%, rgba(255,255,255,0.7) 60%, rgba(255,255,255,0.7) 100%);
             background-size: 200% 100%;
-            color: white;
+            color: var(--text-dark);
             font-family: 'Montserrat', sans-serif;
             font-size: 0.6rem;
             font-weight: 600;
