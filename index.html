@@ -1237,7 +1237,8 @@
             const eventsGrid = document.getElementById('eventsGrid');
             eventsToShow.forEach(event => {
                 const hasParking = !!event.parking;
-                const today = new Date().toLocaleDateString('en-CA'); // YYYY-MM-DD
+                const urlParams = new URLSearchParams(window.location.search);
+                const today = urlParams.get('date') || new Date().toLocaleDateString('en-CA'); // YYYY-MM-DD
                 const isToday = event.isoDate === today;
 
                 // Seating lookup
