@@ -662,6 +662,30 @@
             font-style: italic;
         }
 
+        /* Today highlight */
+        .event-today {
+            box-shadow: 0 0 0 2px var(--gold), 0 8px 32px rgba(212, 175, 55, 0.2);
+            transform: scale(1.02);
+        }
+        .event-today-badge {
+            display: inline-block;
+            background: var(--gold);
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.6rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            margin-left: 0.5rem;
+            vertical-align: middle;
+            animation: todayPulse 2s ease-in-out infinite;
+        }
+        @keyframes todayPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
         /* Seating link */
         .seating-link {
             cursor: pointer;
@@ -1114,6 +1138,7 @@
                 number: '01',
                 emoji: '🌼',
                 date: 'Saturday, April 18, 2026',
+                isoDate: '2026-04-18',
                 title: 'Haldi & Mehndi',
                 time: '11:00 AM - 4:00 PM',
                 location: 'Quakers Hill Community Centre',
@@ -1125,6 +1150,7 @@
                 number: '02',
                 emoji: '🤵',
                 date: 'Sunday, April 19, 2026',
+                isoDate: '2026-04-19',
                 title: 'Western Wedding Ceremony',
                 time: '10:00 AM - 3:00 PM',
                 location: 'Sergeants Mess',
@@ -1168,6 +1194,7 @@
                 number: '03',
                 emoji: '🇮🇳',
                 date: 'Monday, April 20, 2026',
+                isoDate: '2026-04-20',
                 title: 'Indian Wedding Ceremony',
                 time: '4:00 PM - 10:00 PM',
                 location: 'The Madison Function Centre',
@@ -1210,6 +1237,8 @@
             const eventsGrid = document.getElementById('eventsGrid');
             eventsToShow.forEach(event => {
                 const hasParking = !!event.parking;
+                const today = new Date().toLocaleDateString('en-CA'); // YYYY-MM-DD
+                const isToday = event.isoDate === today;
 
                 // Seating lookup
                 let seatingHTML = '';
@@ -1259,6 +1288,7 @@
                     <div class="event-header">
                         <span class="event-emoji">${event.emoji}</span>
                         <h3 class="event-title">${event.title}</h3>
+                        ${isToday ? '<span class="event-today-badge">TODAY</span>' : ''}
                     </div>
                 `;
 
@@ -1290,7 +1320,7 @@
                     wrapper.className = 'event-card-wrapper';
 
                     const card = document.createElement('div');
-                    card.className = `event-card ${event.class}`;
+                    card.className = `event-card ${event.class}${isToday ? ' event-today' : ''}`;
                     card.setAttribute('data-watermark', event.emoji);
 
                     card.innerHTML = `
@@ -1323,7 +1353,7 @@
                     eventsGrid.appendChild(wrapper);
                 } else {
                     const card = document.createElement('div');
-                    card.className = `event-card ${event.class}`;
+                    card.className = `event-card ${event.class}${isToday ? ' event-today' : ''}`;
                     card.setAttribute('data-watermark', event.emoji);
                     card.innerHTML = `${headerHTML}${infoBlockHTML}`;
                     eventsGrid.appendChild(card);
