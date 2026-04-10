@@ -669,7 +669,8 @@
         }
         .event-today-badge {
             display: inline-block;
-            background: var(--gold);
+            background: linear-gradient(110deg, var(--gold) 0%, var(--gold) 40%, #f0dc82 50%, var(--gold) 60%, var(--gold) 100%);
+            background-size: 200% 100%;
             color: white;
             font-family: 'Montserrat', sans-serif;
             font-size: 0.6rem;
@@ -679,11 +680,11 @@
             border-radius: 20px;
             margin-left: 0.5rem;
             vertical-align: middle;
-            animation: todayPulse 2s ease-in-out infinite;
+            animation: todayShimmer 2.5s ease-in-out infinite;
         }
-        @keyframes todayPulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
+        @keyframes todayShimmer {
+            0% { background-position: 100% 0; }
+            100% { background-position: -100% 0; }
         }
 
         /* Seating link */
