@@ -662,6 +662,83 @@
             font-style: italic;
         }
 
+        /* Seating link */
+        .seating-link {
+            cursor: pointer;
+            color: var(--event-color);
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+        .seating-link:hover { opacity: 0.7; }
+
+        /* Seating modal */
+        .seating-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        .seating-modal-content {
+            background: var(--cream);
+            border-radius: 16px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        .seating-modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: var(--text-light);
+            transition: color 0.2s;
+        }
+        .seating-modal-close:hover { color: var(--text-dark); }
+        .seating-modal-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            font-weight: 500;
+            color: var(--text-dark);
+            margin-bottom: 1.25rem;
+        }
+        .seating-table {
+            padding: 0.75rem 1rem;
+            border-radius: 10px;
+            margin-bottom: 0.5rem;
+            background: rgba(255,255,255,0.6);
+        }
+        .seating-table-highlight {
+            background: rgba(201, 117, 87, 0.12);
+            border: 1px solid rgba(201, 117, 87, 0.3);
+        }
+        .seating-table-num {
+            font-weight: 500;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-dark);
+            margin-bottom: 0.25rem;
+        }
+        .seating-table-guests {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            line-height: 1.5;
+        }
+        .seating-guest-you {
+            font-weight: 500;
+            color: var(--terracotta);
+        }
+
         /* RSVP Section */
         .rsvp {
             padding: 6rem 2rem;
@@ -1072,6 +1149,19 @@
                     ],
                     mapImage: '/photos/sergeants-mess-map.jpg'
                 },
+                seating: {
+                    1: ['Sonu', 'Govind', 'Hugues', 'Marta', 'Thomas', 'Vishesh', 'Ana Lucia'],
+                    2: ['Anshu', 'Shubra', 'Nani', 'Sangeeta', 'Ratna', 'Renu'],
+                    3: ['Andrew', 'Oanh', 'Alex', 'Daniul', 'Dorfa', 'Moaz'],
+                    4: ['Anish', 'Michael', 'Amaresh', 'Dave', 'Hannah', 'Norma'],
+                    5: ['Shelley', 'Tony', 'Richard', 'Debanjan', 'Charles', 'Andy Maher'],
+                    6: ['Peter', 'Gemma', 'Baby Abbi', 'Michelle', 'Elvis', 'Ollie', 'Fiona'],
+                    7: ['Graham', 'Erol', 'Medhavi', 'Lucy', 'Kylie', 'Callum'],
+                    8: ['Doriane', 'Elise Paillard', 'Theo', 'Panos', 'Dava', 'Baby Leandros', 'Carlos', 'Sam'],
+                    9: ['Jascha', 'Sooyeon', 'Omar', 'Destiny', 'Nico', 'Jenny'],
+                    10: ['Ben', 'Stef', 'Baby Caleb', 'Elise Stephenson', 'Mikhara', 'Aisha'],
+                    11: ['Pat', 'Kelly', 'Peter G', 'Brandon', 'Jin', 'JDF']
+                },
                 class: 'western'
             },
             indian: {
@@ -1121,6 +1211,36 @@
             eventsToShow.forEach(event => {
                 const hasParking = !!event.parking;
 
+                // Seating lookup
+                let seatingHTML = '';
+                if (event.seating) {
+                    let guestTable = null;
+                    const nameLC = guestName.toLowerCase();
+                    for (const [table, guests] of Object.entries(event.seating)) {
+                        if (guests.some(g => g.toLowerCase() === nameLC || nameLC.includes(g.toLowerCase()) || g.toLowerCase().includes(nameLC))) {
+                            guestTable = table;
+                            break;
+                        }
+                    }
+                    if (guestTable) {
+                        seatingHTML = `
+                            <div class="event-info-divider"></div>
+                            <div class="event-info-row">
+                                <span class="info-icon">🪑</span>
+                                <span class="info-label">Your Table</span>
+                                <span class="info-value">Table ${guestTable} · <a class="seating-link" onclick="document.getElementById('seatingModal').style.display='flex'">View all tables →</a></span>
+                            </div>`;
+                    } else {
+                        seatingHTML = `
+                            <div class="event-info-divider"></div>
+                            <div class="event-info-row">
+                                <span class="info-icon">🪑</span>
+                                <span class="info-label">Seating</span>
+                                <span class="info-value"><a class="seating-link" onclick="document.getElementById('seatingModal').style.display='flex'">View seating chart →</a></span>
+                            </div>`;
+                    }
+                }
+
                 // When row: include schedule if present
                 const scheduleHTML = event.schedule
                     ? `<table class="schedule-table">${event.schedule.map(s => `<tr><td class="sched-time">${s.time}</td><td class="sched-label">${s.label}</td></tr>`).join('')}</table>`
@@ -1161,6 +1281,7 @@
                             <span class="info-label">Wear</span>
                             <span class="info-value">${event.dressCode}</span>
                         </div>
+                        ${seatingHTML}
                     </div>
                 `;
 
@@ -1206,6 +1327,26 @@
                     card.setAttribute('data-watermark', event.emoji);
                     card.innerHTML = `${headerHTML}${infoBlockHTML}`;
                     eventsGrid.appendChild(card);
+                }
+                // Build seating modal if this event has seating
+                if (event.seating) {
+                    let modalHTML = `<div id="seatingModal" class="seating-modal" onclick="if(event.target===this)this.style.display='none'">
+                        <div class="seating-modal-content">
+                            <button class="seating-modal-close" onclick="document.getElementById('seatingModal').style.display='none'">✕</button>
+                            <h3 class="seating-modal-title">Seating Chart</h3>
+                            <div class="seating-tables">`;
+                    for (const [table, guests] of Object.entries(event.seating)) {
+                        const isGuestTable = guestName && guests.some(g => g.toLowerCase() === guestName.toLowerCase() || guestName.toLowerCase().includes(g.toLowerCase()) || g.toLowerCase().includes(guestName.toLowerCase()));
+                        modalHTML += `<div class="seating-table ${isGuestTable ? 'seating-table-highlight' : ''}">
+                            <div class="seating-table-num">Table ${table}</div>
+                            <div class="seating-table-guests">${guests.map(g => {
+                                const isYou = guestName && (g.toLowerCase() === guestName.toLowerCase() || guestName.toLowerCase().includes(g.toLowerCase()) || g.toLowerCase().includes(guestName.toLowerCase()));
+                                return `<span class="${isYou ? 'seating-guest-you' : ''}">${g}${isYou ? ' (you!)' : ''}</span>`;
+                            }).join(', ')}</div>
+                        </div>`;
+                    }
+                    modalHTML += `</div></div></div>`;
+                    document.body.insertAdjacentHTML('beforeend', modalHTML);
                 }
             });
         }
