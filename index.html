@@ -1270,11 +1270,13 @@
                 let seatingHTML = '';
                 if (event.seating) {
                     let guestTable = null;
-                    const nameLC = guestName.toLowerCase();
-                    for (const [table, guests] of Object.entries(event.seating)) {
-                        if (guests.some(g => g.toLowerCase() === nameLC || nameLC.includes(g.toLowerCase()) || g.toLowerCase().includes(nameLC))) {
-                            guestTable = table;
-                            break;
+                    if (guestName) {
+                        const nameLC = guestName.toLowerCase();
+                        for (const [table, guests] of Object.entries(event.seating)) {
+                            if (guests.some(g => g.toLowerCase() === nameLC || nameLC.includes(g.toLowerCase()) || g.toLowerCase().includes(nameLC))) {
+                                guestTable = table;
+                                break;
+                            }
                         }
                     }
                     if (guestTable) {
