@@ -24,6 +24,29 @@
 @keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
 @keyframes wiggle{0%,86%,100%{transform:rotate(0)}89%{transform:rotate(-6deg)}92%{transform:rotate(5deg)}95%{transform:rotate(-3deg)}}
 @media (prefers-reduced-motion: reduce){.clues li{animation:none;opacity:1;transform:none}.veil-card .eyebrow,.veil-count,.veil-card h2 em{animation:none}}
+
+.unlock-btn{all:unset;cursor:pointer;justify-self:center;margin-top:4px;padding:11px 18px;border-radius:999px;background:var(--plum);color:var(--paper);font-weight:600;font-size:15px;box-shadow:0 6px 18px -8px color-mix(in srgb,var(--plum) 70%,transparent);transition:transform .15s ease}
+.unlock-btn:hover{transform:translateY(-1px)}
+.unlock-btn:focus-visible{outline:2px solid var(--maple);outline-offset:3px}
+.quiz{display:grid;gap:14px;text-align:left}
+.quiz-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.dots{display:flex;gap:6px}
+.dots i{width:9px;height:9px;border-radius:50%;background:var(--line);display:block;transition:background .3s}
+.dots i.on{background:var(--moss)}
+.quiz-q{font-family:var(--display);font-size:22px;line-height:1.2;margin:0;text-wrap:balance}
+.quiz-hint{font-size:13.5px;color:var(--muted);margin:-6px 0 0}
+.opts{display:grid;gap:8px}
+.opt{all:unset;box-sizing:border-box;cursor:pointer;padding:11px 14px;border:1.5px solid var(--line);border-radius:10px;background:var(--bg);font-size:15px;line-height:1.35;color:var(--ink)}
+.opt:hover{border-color:var(--moss)}
+.opt:focus-visible{outline:2px solid var(--maple);outline-offset:2px}
+.opt.wrong{border-color:var(--maple);animation:shake .4s}
+.opt.right{border-color:var(--moss);background:color-mix(in srgb,var(--moss) 14%,var(--paper))}
+.quiz-msg{min-height:1.4em;font-size:14px;color:var(--maple);margin:0}
+.quiz-msg.good{color:var(--moss)}
+.linkish{all:unset;cursor:pointer;font-size:13px;color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+.linkish:focus-visible{outline:2px solid var(--maple);outline-offset:2px}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}50%{transform:translateX(5px)}75%{transform:translateX(-3px)}}
+@media (prefers-reduced-motion: reduce){.opt.wrong{animation:none}}
 </style>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -185,6 +208,7 @@ footer{font-size:13px;color:var(--muted);text-align:center}
 <div class="veil" id="veil" hidden>
   <canvas id="veilLeaves" aria-hidden="true"></canvas>
   <div class="veil-card" role="dialog" aria-label="Surprise">
+   <div id="teaser" style="display:grid;gap:12px">
     <div class="eyebrow">For Helene</div>
     <h2>Something is planned for your <em>birthday</em></h2>
     <p>Some clues. The rest is a secret until Saturday morning.</p>
@@ -200,6 +224,17 @@ footer{font-size:13px;color:var(--muted);text-align:center}
     </ul>
     <div class="veil-count" id="veilCount">—</div>
     <div class="veil-when">Unlocks Sat 24 Oct · 5:00am</div>
+    <button type="button" class="unlock-btn" id="startQuiz">Can't wait? Answer 3 questions to unlock it now</button>
+   </div>
+   <div id="quiz" class="quiz" hidden>
+    <div class="quiz-top"><span class="eyebrow">Prove it's really you</span><span class="dots" id="dots"><i></i><i></i><i></i></span></div>
+    <h3 class="quiz-q" id="qText"></h3>
+    <p class="quiz-hint" id="qHint"></p>
+    <div class="opts" id="opts"></div>
+    <p class="quiz-msg" id="qMsg" aria-live="polite"></p>
+    <button type="button" class="linkish" id="backToTeaser">Back to the clues</button>
+   </div>
+  </div>
   </div>
 </div>
 <main class="wrap">
@@ -354,7 +389,7 @@ footer{font-size:13px;color:var(--muted);text-align:center}
   }
   function veilTick(){
     var left = unlock - Date.now();
-    if (left > 0 && !peeking()){
+    if (left > 0 && !peeking() && !earned()){
       root.classList.add('locked'); veilEl.hidden = false; vc.textContent = vfmt(left); document.title = 'A Birthday Secret';
     } else if (root.classList.contains('locked')){
       root.classList.add('unlocking'); root.classList.remove('locked'); veilEl.hidden = true; document.title = 'Helene\'s Birthday Weekend';
@@ -393,6 +428,48 @@ footer{font-size:13px;color:var(--muted);text-align:center}
     }
     frame();
   })();
+
+  // Unlock-early quiz. Answers are lightly encoded so they aren't sitting in plain sight.
+  var Q = [
+    {q:"Where did Amogh first notice you?", h:"You have zero memory of this.", o:["On the cave trip","At a Texas football tailgate","At your \u201cAround the World\u201d party","In the exchange students\u2019 Facebook group"], k:"MQ=="},
+    {q:"Which trip did we take with nobody else invited?", h:"The one Amogh still calls the foundation of us.", o:["New Orleans","Spring break in Mexico","The Thanksgiving road trip","A weekend in San Antonio"], k:"Mg=="},
+    {q:"After New Orleans, you had a birthday. Who didn\u2019t get an invite?", h:"Appropriate, given the occasion.", o:["Flo","Amogh, and he is still not over it","His 18-year-old housemates","Everyone came, obviously"], k:"MQ=="}
+  ];
+  var nope = ["Nope! Try again.","Not quite. Think harder.","Amogh is shaking his head.","Wrong, but a very sweet guess.","Close? No. Not close."];
+  var qi = 0, busy = false;
+  var teaser = document.getElementById('teaser'), quiz = document.getElementById('quiz');
+  var qText = document.getElementById('qText'), qHint = document.getElementById('qHint'), opts = document.getElementById('opts'), qMsg = document.getElementById('qMsg');
+  var dotsEl = document.getElementById('dots').children;
+  function earned(){ try { return localStorage.getItem('pb-unlocked') === '1'; } catch(e){ return false; } }
+  function showQ(){
+    var it = Q[qi]; qText.textContent = it.q; qHint.textContent = it.h; qMsg.textContent = ''; qMsg.className = 'quiz-msg';
+    for (var d=0; d<dotsEl.length; d++) dotsEl[d].className = d < qi ? 'on' : '';
+    opts.innerHTML = '';
+    it.o.forEach(function(text, idx){
+      var b = document.createElement('button'); b.type = 'button'; b.className = 'opt'; b.textContent = text;
+      b.addEventListener('click', function(){
+        if (busy) return;
+        if (String(idx) === atob(it.k)){
+          busy = true; b.classList.add('right'); qMsg.className = 'quiz-msg good';
+          qMsg.textContent = qi < Q.length-1 ? 'Yes! Next one\u2026' : 'You did it. Unlocking\u2026';
+          setTimeout(function(){ busy = false; qi++; if (qi < Q.length) showQ(); else win(); }, 900);
+        } else {
+          b.classList.remove('wrong'); void b.offsetWidth; b.classList.add('wrong');
+          qMsg.textContent = nope[Math.floor(Math.random()*nope.length)];
+        }
+      });
+      opts.appendChild(b);
+    });
+    var first = opts.querySelector('button'); if (first) first.focus({preventScroll:true});
+  }
+  function win(){
+    for (var d=0; d<dotsEl.length; d++) dotsEl[d].className = 'on';
+    try { localStorage.setItem('pb-unlocked','1'); } catch(e){}
+    veilTick();
+    window.scrollTo({top:0});
+  }
+  document.getElementById('startQuiz').addEventListener('click', function(){ teaser.hidden = true; quiz.hidden = false; qi = 0; showQ(); });
+  document.getElementById('backToTeaser').addEventListener('click', function(){ quiz.hidden = true; teaser.hidden = false; });
 
   veilTick(); setInterval(veilTick, 15000); window.addEventListener('hashchange', veilTick);
 
