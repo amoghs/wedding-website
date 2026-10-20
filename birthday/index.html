@@ -431,11 +431,11 @@ footer{font-size:13px;color:var(--muted);text-align:center}
 
   // Unlock-early quiz. Answers are lightly encoded so they aren't sitting in plain sight.
   var Q = [
-    {q:"Where did Amogh first notice you?", h:"You have zero memory of this.", o:["On the cave trip","At a Texas football tailgate","At your \u201cAround the World\u201d party","In the exchange students\u2019 Facebook group"], k:"MQ=="},
-    {q:"Which trip did we take with nobody else invited?", h:"The one Amogh still calls the foundation of us.", o:["New Orleans","Spring break in Mexico","The Thanksgiving road trip","A weekend in San Antonio"], k:"Mg=="},
-    {q:"After New Orleans, you had a birthday. Who didn\u2019t get an invite?", h:"Appropriate, given the occasion.", o:["Flo","Amogh, and he is still not over it","His 18-year-old housemates","Everyone came, obviously"], k:"MQ=="}
+    {q:"What are you chasing on the rings right now?", h:"The big one.", o:["A ring muscle-up","An Olympic iron cross","Hanging upside down until dinner","Ring-themed jewellery"], k:"MA=="},
+    {q:"Your upside-down goal of the moment?", h:"Slow, controlled, no kicking.", o:["A headstand on the sofa","A cartwheel in Central Park","Pressing up into a handstand","Seeing things from Amogh\u2019s point of view"], k:"Mg=="},
+    {q:"Where are you climbing walls these days?", h:"Same place you do yoga.", o:["Brooklyn Boulders","Chelsea Piers Fitness","The rocks in Central Park","Amogh\u2019s patience"], k:"MQ=="}
   ];
-  var nope = ["Nope! Try again.","Not quite. Think harder.","Amogh is shaking his head.","Wrong, but a very sweet guess.","Close? No. Not close."];
+  var nope = ["Nope! Drop and give me ten.","Wrong. That\u2019s a deload week.","Not quite. Chalk up and try again.","Amogh is shaking his head.","Miss. Back to the warm-up set."];
   var qi = 0, busy = false;
   var teaser = document.getElementById('teaser'), quiz = document.getElementById('quiz');
   var qText = document.getElementById('qText'), qHint = document.getElementById('qHint'), opts = document.getElementById('opts'), qMsg = document.getElementById('qMsg');
