@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta property="og:title" content="A Birthday Secret">
+<meta property="og:description" content="Something is planned. Unlocks Saturday morning.">
+<title>A Birthday Secret</title>
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: a railway-ticket hero, then two day "timetables" side by side (stacked on phones), then booking stubs + a packing checklist. */
+:root{
+  --bg:#eef0ea;          /* birch bark */
+  --paper:#fbfcf8;
+  --ink:#1f2b26;         /* forest ink */
+  --muted:#5d6b63;
+  --line:#cfd6cc;
+  --maple:#c8501f;       /* maple leaf */
+  --gold:#d9a227;        /* late-October gold */
+  --moss:#3f6b4f;
+  --plum:#6b3a5a;        /* birthday */
+  --stub:#f6efe0;
+  --display:"Young Serif", Georgia, "Times New Roman", serif;
+  --body:"Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#131a17; --paper:#1b2420; --ink:#e9eee8; --muted:#9fb0a6; --line:#2f3c36;
+    --maple:#ef7a45; --gold:#e8b94a; --moss:#79ad8a; --plum:#d18bb9; --stub:#242c25;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#131a17; --paper:#1b2420; --ink:#e9eee8; --muted:#9fb0a6; --line:#2f3c36;
+  --maple:#ef7a45; --gold:#e8b94a; --moss:#79ad8a; --plum:#d18bb9; --stub:#242c25;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5}
+.wrap{max-width:1080px;margin:0 auto;padding-inline:20px;padding-block:28px 64px;display:grid;gap:40px}
+
+/* ---------- hero ticket ---------- */
+.hero{position:relative}
+#leaves{position:absolute;inset:-28px -20px 0;width:calc(100% + 40px);height:calc(100% + 28px);pointer-events:none;z-index:0}
+.ticket{position:relative;z-index:1;display:grid;grid-template-columns:1fr auto;background:var(--paper);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 10px 30px -18px rgba(0,0,0,.35)}
+.ticket-main{padding:28px 28px 26px;display:grid;gap:14px;min-width:0}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--maple)}
+h1{font-family:var(--display);font-weight:400;font-size:clamp(34px,6vw,58px);line-height:1.02;margin:0;text-wrap:balance}
+h1 em{font-style:normal;color:var(--plum)}
+.route{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;font-family:var(--mono);font-size:14px;color:var(--muted)}
+.route b{font-size:26px;color:var(--ink);font-weight:600;letter-spacing:.02em}
+.route .arrow{flex:1;min-width:40px;border-top:2px dashed var(--line);position:relative;height:0}
+.dates{font-weight:600;color:var(--ink)}
+.ticket-stub{background:var(--stub);border-left:2px dashed var(--line);padding:24px 22px;display:grid;align-content:center;gap:6px;text-align:center;min-width:170px;position:relative}
+.ticket-stub::before,.ticket-stub::after{content:"";position:absolute;left:-11px;width:20px;height:20px;border-radius:50%;background:var(--bg)}
+.ticket-stub::before{top:-10px}.ticket-stub::after{bottom:-10px}
+.count-label{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.count{font-family:var(--display);font-size:46px;line-height:1;color:var(--maple);font-variant-numeric:tabular-nums}
+.count-sub{font-size:13px;color:var(--muted)}
+
+/* ---------- days ---------- */
+.days{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+.day{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:24px 22px 18px;min-width:0}
+.day-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+.day h2{font-family:var(--display);font-weight:400;font-size:28px;margin:0;line-height:1.1}
+.day .theme{font-size:14px;color:var(--muted);margin:0 0 18px}
+.badge{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:4px 9px;border-radius:999px;border:1px solid currentColor}
+.badge.sat{color:var(--moss)} .badge.sun{color:var(--plum)}
+ol.tl{list-style:none;margin:0;padding:0;display:grid}
+.tl li{display:grid;grid-template-columns:62px 18px minmax(0,1fr);column-gap:10px}
+.tl time{font-family:var(--mono);font-size:13px;color:var(--muted);padding-top:3px;font-variant-numeric:tabular-nums;text-align:right}
+.rail{position:relative}
+.rail::before{content:"";position:absolute;left:8px;top:0;bottom:0;width:2px;background:var(--line)}
+.tl li:first-child .rail::before{top:10px}
+.tl li:last-child .rail::before{bottom:calc(100% - 10px)}
+.dot{position:absolute;left:3px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--paper);border:2px solid var(--muted)}
+.tl li.nature .dot{border-color:var(--moss);background:var(--moss)}
+.tl li.food .dot{border-color:var(--maple);background:var(--maple)}
+.tl li.move .dot{border-color:var(--muted)}
+.tl li.star .dot{border-color:var(--plum);background:var(--plum);width:14px;height:14px;left:2px}
+.item{padding-bottom:16px}
+.item h3{margin:0;font-size:16px;font-weight:600;line-height:1.35}
+.item p{margin:2px 0 0;font-size:14px;color:var(--muted)}
+.tag{display:inline-block;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border-radius:5px;margin-left:6px;vertical-align:2px}
+.tag.booked{background:color-mix(in srgb,var(--moss) 16%,transparent);color:var(--moss)}
+.tag.todo{background:color-mix(in srgb,var(--gold) 26%,transparent);color:var(--ink)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12.5px;color:var(--muted);margin-top:4px;padding-top:12px;border-top:1px solid var(--line)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:9px;height:9px;border-radius:50%;display:inline-block}
+
+/* ---------- bookings ---------- */
+.section-title{font-family:var(--display);font-weight:400;font-size:26px;margin:0 0 14px}
+.stubs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.stub{background:var(--stub);border:1px solid var(--line);border-radius:12px;padding:18px;display:grid;gap:8px;align-content:start;min-width:0}
+.stub .kind{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--maple)}
+.stub h3{margin:0;font-family:var(--display);font-weight:400;font-size:21px;line-height:1.15}
+.stub dl{margin:0;display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 12px;font-size:14px}
+.stub dt{color:var(--muted)}
+.stub dd{margin:0;overflow-wrap:anywhere}
+.mono{font-family:var(--mono);font-size:13.5px}
+
+/* ---------- checklist ---------- */
+.bottom{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:24px}
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:22px}
+.checks{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+.checks label{display:flex;gap:12px;align-items:flex-start;padding:8px 6px;border-radius:8px;cursor:pointer}
+.checks label:hover{background:color-mix(in srgb,var(--gold) 12%,transparent)}
+.checks input{appearance:none;flex:none;width:20px;height:20px;margin-top:1px;border:2px solid var(--muted);border-radius:6px;display:grid;place-items:center;cursor:pointer}
+.checks input:checked{background:var(--moss);border-color:var(--moss)}
+.checks input:checked::after{content:"";width:5px;height:10px;border:solid var(--paper);border-width:0 2px 2px 0;transform:translateY(-1px) rotate(45deg)}
+.checks input:focus-visible{outline:2px solid var(--maple);outline-offset:2px}
+.checks input:checked + span{color:var(--muted);text-decoration:line-through}
+.checks small{display:block;color:var(--muted);font-size:13px}
+.tips{margin:0;padding-left:18px;display:grid;gap:10px;font-size:15px}
+.tips b{font-weight:600}
+a{color:var(--maple);text-underline-offset:3px}
+a:focus-visible{outline:2px solid var(--maple);outline-offset:2px;border-radius:3px}
+footer{font-size:13px;color:var(--muted);text-align:center}
+
+@media (max-width:820px){
+  .days,.bottom{grid-template-columns:minmax(0,1fr)}
+  .stubs{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){
+  .ticket{grid-template-columns:minmax(0,1fr)}
+  .ticket-stub{border-left:none;border-top:2px dashed var(--line)}
+  .ticket-stub::before,.ticket-stub::after{display:none}
+  .ticket-main{padding:22px 20px}
+  .tl li{grid-template-columns:52px 18px minmax(0,1fr);column-gap:8px}
+}
+
+/* ---------- surprise veil ---------- */
+.locked .wrap{filter:blur(16px) saturate(.9);pointer-events:none;user-select:none}
+.locked .wrap *{user-select:none}
+.veil{position:fixed;inset:0;z-index:20;display:grid;place-items:center;padding-inline:20px;padding-block:calc(20px + env(safe-area-inset-top,0px)) calc(20px + env(safe-area-inset-bottom,0px));background:color-mix(in srgb,var(--bg) 35%,transparent)}
+.veil[hidden]{display:none!important}
+.veil-card{max-width:420px;width:100%;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:30px 26px;text-align:center;display:grid;gap:12px;box-shadow:0 20px 50px -25px rgba(0,0,0,.45)}
+.veil-card h2{font-family:var(--display);font-weight:400;font-size:30px;line-height:1.1;margin:0;text-wrap:balance}
+.veil-card h2 em{font-style:normal;color:var(--plum)}
+.veil-card p{margin:0;color:var(--muted);font-size:15px}
+.veil-count{font-family:var(--display);font-size:44px;line-height:1;color:var(--maple);font-variant-numeric:tabular-nums}
+.veil-when{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.unlocking .wrap{transition:filter 1.6s ease}
+@media (prefers-reduced-motion: reduce){.unlocking .wrap{transition:none}}
+
+.choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:10px}
+.choice{all:unset;box-sizing:border-box;cursor:pointer;display:grid;gap:4px;align-content:start;padding:12px 13px;border:1.5px solid var(--line);border-radius:10px;background:var(--bg);min-width:0}
+.choice:hover{border-color:var(--moss)}
+.choice:focus-visible{outline:2px solid var(--maple);outline-offset:2px}
+.choice[aria-checked="true"]{border-color:var(--plum);background:color-mix(in srgb,var(--plum) 10%,var(--paper))}
+.choice-k{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--moss)}
+.choice[aria-checked="true"] .choice-k{color:var(--plum)}
+.choice-t{font-weight:600;font-size:15px;line-height:1.3;color:var(--ink)}
+.choice-d{font-size:13px;color:var(--muted);line-height:1.45}
+@media (max-width:420px){.choices{grid-template-columns:minmax(0,1fr)}}
+</style>
+</head>
+<body>
+
+
+<div class="veil" id="veil" hidden>
+  <div class="veil-card" role="dialog" aria-label="Surprise">
+    <div class="eyebrow">For Helene</div>
+    <h2>Something is planned for your <em>birthday</em></h2>
+    <p>Pack walking shoes and a warm layer. Everything else is a secret until Saturday morning.</p>
+    <div class="veil-count" id="veilCount">—</div>
+    <div class="veil-when">Unlocks Sat 24 Oct · 5:00am</div>
+  </div>
+</div>
+<main class="wrap">
+
+  <section class="hero" aria-label="Trip overview">
+    <canvas id="leaves" aria-hidden="true"></canvas>
+    <div class="ticket">
+      <div class="ticket-main">
+        <div class="eyebrow">Admit two · one night away</div>
+        <h1>Helene's <em>birthday</em> escape to Philadelphia</h1>
+        <div class="route">
+          <b>NYP</b><span>Moynihan</span><span class="arrow" aria-hidden="true"></span><span>30th St</span><b>PHL</b>
+        </div>
+        <div class="dates">Saturday 24 → Sunday 25 October 2026 · woods, Vedge, and a birthday brunch</div>
+      </div>
+      <div class="ticket-stub">
+        <div class="count-label" id="countLabel">Departs in</div>
+        <div class="count" id="count">—</div>
+        <div class="count-sub" id="countSub">Sat 7:04am, Moynihan</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="days" aria-label="Itinerary">
+    <article class="day">
+      <div class="day-head"><h2>Saturday 24</h2><span class="badge sat">The woods day</span></div>
+      <p class="theme">Early train, autumn gorge walk, nap, an early dinner, and a long evening.</p>
+      <ol class="tl">
+        <li class="move"><time>5:45</time><span class="rail"><span class="dot"></span></span><div class="item"><h3>Alarm</h3><p>Leave Chelsea by 6:40. Grab coffee at Moynihan.</p></div></li>
+        <li class="move"><time>7:04</time><span class="rail"><span class="dot"></span></span><div class="item"><h3>Train to Philly <span class="tag booked">Booked</span></h3><p>Carolinian 1079 → arrives 30th St 8:47.</p></div></li>
+        <li class="move"><time>9:00</time><span class="rail"><span class="dot"></span></span><div class="item"><h3>Drop bags at The Notary</h3><p>10 min Uber. Leave bags at the front desk.</p></div></li>
+        <li class="nature"><time>9:45</time><span class="rail"><span class="dot"></span></span><div class="item"><h3>Wissahickon Valley Park</h3><p>Uber ~20 min to Valley Green Inn. Walk Forbidden Drive along the creek through the gorge. Peak autumn colour.</p></div></li>
+        <li class="food"><time>12:30</time><span class="rail"><span class="dot"></span></span><div class="item"><h3>Lunch at Valley Green Inn</h3><p>Old stone inn on the trail. Keep it light, dinner is early. Or walk up to Chestnut Hill for cafés.</p></div></li>
+        <li class="move"><time>2:30</time><span class="rail"><span class="dot"></span></span><div class="item"><h3>Back to Center City</h3><p>Coffee, a wander, then check in from 4pm and nap.</p></div></li>
+        <li class="food"><time>5:15</time><span class="rail"><span class="dot"></span></span><div class="item"><h3>Dinner at Vedge <span class="tag booked">Booked</span></h3><p>1221 Locust St, 10 min walk. Tasting menu $79pp, or plates $16–26.</p></div></li>
+        <li class="nature"><time>7:00</time><span class="rail"><span class="dot"></span></span><div class="item"><h3>Old City at night</h3><p>Elfreth's Alley, cobblestones, a drink somewhere cosy.</p></div></li>
+        <li class="star"><time>9:30</time><span class="rail"><span class="dot"></span></span><div class="item"><h3>Back at the hotel, just us</h3><p>A cosy evening in, just the two of us.</p></div></li>
+        <li class="star"><time>12:00</time><span class="rail"><span class="dot"></span></span><div class="item"><h3>Midnight: it's her birthday</h3><p>Toast at the hotel.</p></div></li>
+      </ol>
+      <div class="legend"><span><i style="background:var(--moss)"></i>Outdoors</span><span><i style="background:var(--maple)"></i>Food</span><span><i style="border:2px solid var(--muted)"></i>Getting around</span><span><i style="background:var(--plum)"></i>Birthday</span></div>
+    </article>
+
+    <article class="day">
+      <div class="day-head"><h2>Sunday 25</h2><span class="badge sun">Her birthday</span></div>
+      <p class="theme">Loose and easy. A slow birthday morning, brunch, then her pick of the afternoon.</p>
+      <ol class="tl">
+        <li class="star"><time>Late</time><span class="rail"><span class="dot"></span></span><div class="item"><h3>Birthday morning</h3><p>Sleep in. Card and coffee in bed. Check out by noon, leave bags at the desk.</p></div></li>
+        <li class="food"><time>Brunch</time><span class="rail"><span class="dot"></span></span><div class="item"><h3>Brunch wherever looks good</h3><p>Ideas: Parc, the French bistro on Rittenhouse Square, or Reading Terminal Market, 2 blocks from the hotel.</p></div></li>
+        <li class="star"><time>Noon</time><span class="rail"><span class="dot"></span></span><div class="item"><h3>Birthday girl's choice</h3><p>Pick the afternoon. Both end back at the hotel by 3:30.</p>
+          <div class="choices" role="radiogroup" aria-label="Sunday afternoon">
+            <button type="button" class="choice" id="pick-river" role="radio" aria-checked="false">
+              <span class="choice-k">Easy &amp; scenic</span>
+              <span class="choice-t">River trail &amp; Art Museum</span>
+              <span class="choice-d">Walk from brunch to the Schuylkill, follow the water to Boathouse Row, then up the Rocky steps for the skyline. Flat, no Ubers, no rush.</span>
+            </button>
+            <button type="button" class="choice" id="pick-woods" role="radio" aria-checked="false">
+              <span class="choice-k">More nature</span>
+              <span class="choice-t">Back to the woods</span>
+              <span class="choice-d">Uber 20 min to Wissahickon and walk a new stretch of the gorge, or the gardens at Bartram's Garden by the river. A bit more travel.</span>
+            </button>
+          </div>
+        </div></li>
+        <li class="move"><time>3:30</time><span class="rail"><span class="dot"></span></span><div class="item"><h3>Collect bags</h3><p>Back to The Notary, then Uber to 30th St by 3:50.</p></div></li>
+        <li class="move"><time>4:35</time><span class="rail"><span class="dot"></span></span><div class="item"><h3>Train home <span class="tag booked">Booked</span></h3><p>Northeast Regional 156 → Moynihan 6:02.</p></div></li>
+        <li class="star"><time>6:15</time><span class="rail"><span class="dot"></span></span><div class="item"><h3>Home</h3><p>Birthday dinner out, or a cosy night in.</p></div></li>
+      </ol>
+      <div class="legend"><span><i style="background:var(--moss)"></i>Outdoors</span><span><i style="background:var(--maple)"></i>Food</span><span><i style="border:2px solid var(--muted)"></i>Getting around</span><span><i style="background:var(--plum)"></i>Birthday</span></div>
+    </article>
+  </section>
+
+  <section aria-label="Bookings">
+    <h2 class="section-title">Bookings</h2>
+    <div class="stubs">
+      <div class="stub">
+        <div class="kind">Train · Amtrak</div>
+        <h3>New York ⇄ Philadelphia</h3>
+        <dl>
+          <dt>Reservation</dt><dd class="mono">4757AE</dd>
+          <dt>Out</dt><dd>Sat 7:04am → 8:47am</dd>
+          <dt>Back</dt><dd>Sun 4:35pm → 6:02pm</dd>
+          <dt>Seats</dt><dd>2 coach, Flex (refundable)</dd>
+          <dt>Paid</dt><dd>$506</dd>
+        </dl>
+      </div>
+      <div class="stub">
+        <div class="kind">Hotel · 1 night</div>
+        <h3>The Notary Hotel</h3>
+        <dl>
+          <dt>Address</dt><dd>21 N Juniper St</dd>
+          <dt>Phone</dt><dd class="mono">+1 215 496 3200</dd>
+          <dt>Booking.com</dt><dd class="mono">6076.894.148</dd>
+          <dt>Room</dt><dd>Guest Room, 1 King</dd>
+          <dt>Times</dt><dd>In from 4pm · out by noon</dd>
+          <dt>Pay</dt><dd>$545.50 at the hotel</dd>
+        </dl>
+      </div>
+      <div class="stub">
+        <div class="kind">Dinner · Resy</div>
+        <h3>Vedge</h3>
+        <dl>
+          <dt>When</dt><dd>Sat 24 Oct, 5:15pm</dd>
+          <dt>Party</dt><dd>2, dining room</dd>
+          <dt>Address</dt><dd>1221 Locust St</dd>
+          <dt>Phone</dt><dd class="mono">+1 215 320 7500</dd>
+          <dt>Note</dt><dd>1h45 table limit. Birthday mentioned.</dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="bottom" aria-label="Before we go">
+    <div class="panel">
+      <h2 class="section-title">Before we go</h2>
+      <ul class="checks">
+        <li><label><input type="checkbox" id="c-shoes"><span>Pack walking shoes and a warm layer<small>Late October mornings in the gorge are cool.</small></span></label></li>
+        <li><label><input type="checkbox" id="c-card"><span>Birthday card and gift<small>For Sunday morning.</small></span></label></li>
+        <li><label><input type="checkbox" id="c-bag"><span>One small bag each<small>You'll leave them at the hotel desk both days.</small></span></label></li>
+        <li><label><input type="checkbox" id="c-tickets"><span>Amtrak tickets in the app<small>QR codes for 4757AE.</small></span></label></li>
+        <li><label><input type="checkbox" id="c-sun"><span>Decide on Sunday night<small>Dinner out in New York, or a cosy night in.</small></span></label></li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h2 class="section-title">Good to know</h2>
+      <ul class="tips">
+        <li><b>Phones:</b> signal can be patchy deep in Wissahickon. Book the Uber back from Valley Green Inn.</li>
+        <li><b>Valley Green Inn:</b> check their Saturday lunch hours before you go.</li>
+        <li><b>Breakfast</b> isn't included at the hotel (about $19 each), so Sunday brunch is the move.</li>
+        <li><b>Late check-out</b> was requested with the booking. Ask at the desk.</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>Made for Helene's birthday weekend · 24–25 October 2026</footer>
+</main>
+
+<script>
+(function(){
+  // Sunday pick (remembered on this device only).
+  var picks = [document.getElementById('pick-river'), document.getElementById('pick-woods')];
+  function setPick(id){ picks.forEach(function(b){ b.setAttribute('aria-checked', b.id===id ? 'true':'false'); }); }
+  try { var saved = localStorage.getItem('pb-sunday'); if (saved) setPick(saved); } catch(e){}
+  picks.forEach(function(b){ b.addEventListener('click', function(){ setPick(b.id); try{ localStorage.setItem('pb-sunday', b.id); }catch(e){} }); });
+
+  // Surprise veil: blurred until Saturday 5am New York time. Add #peek to the link to see it early.
+  var unlock = new Date('2026-10-24T05:00:00-04:00').getTime();
+  var veilEl = document.getElementById('veil'), vc = document.getElementById('veilCount');
+  var root = document.documentElement;
+  function peeking(){ return location.hash === '#peek'; }
+  function vfmt(ms){
+    var m = Math.max(0, Math.ceil(ms/60000)), d = Math.floor(m/1440), h = Math.floor((m%1440)/60), mi = m%60;
+    return d > 0 ? d + 'd ' + h + 'h ' + mi + 'm' : h + 'h ' + String(mi).padStart(2,'0') + 'm';
+  }
+  function veilTick(){
+    var left = unlock - Date.now();
+    if (left > 0 && !peeking()){
+      root.classList.add('locked'); veilEl.hidden = false; vc.textContent = vfmt(left); document.title = 'A Birthday Secret';
+    } else if (root.classList.contains('locked')){
+      root.classList.add('unlocking'); root.classList.remove('locked'); veilEl.hidden = true; document.title = 'Helene\'s Birthday Weekend';
+    } else { veilEl.hidden = true; document.title = 'Helene\'s Birthday Weekend'; }
+  }
+  veilTick(); setInterval(veilTick, 15000); window.addEventListener('hashchange', veilTick);
+
+  // Countdown to departure, then to her birthday, then a birthday message.
+  var dep = new Date('2026-10-24T07:04:00-04:00').getTime();
+  var bday = new Date('2026-10-25T00:00:00-04:00').getTime();
+  var end = new Date('2026-10-26T00:00:00-04:00').getTime();
+  var c = document.getElementById('count'), l = document.getElementById('countLabel'), s = document.getElementById('countSub');
+  function fmt(ms){
+    var m = Math.max(0, Math.floor(ms/60000)), d = Math.floor(m/1440), h = Math.floor((m%1440)/60), mi = m%60;
+    if (d > 0) return d + 'd ' + h + 'h';
+    return h + 'h ' + String(mi).padStart(2,'0') + 'm';
+  }
+  function tick(){
+    var now = Date.now();
+    if (now < dep){ l.textContent='Departs in'; c.textContent=fmt(dep-now); s.textContent='Sat 7:04am, Moynihan'; }
+    else if (now < bday){ l.textContent='Birthday in'; c.textContent=fmt(bday-now); s.textContent='Midnight toast'; }
+    else if (now < end){ l.textContent='Today'; c.textContent='Happy birthday'; c.style.fontSize='30px'; s.textContent='Helene, 25 October'; }
+    else { l.textContent='Trip'; c.textContent='Done'; s.textContent='Hope it was lovely'; }
+  }
+  tick(); setInterval(tick, 30000);
+
+  // Checklist memory (per viewer only).
+  document.querySelectorAll('.checks input').forEach(function(box){
+    try { if (localStorage.getItem('pb-'+box.id) === '1') box.checked = true; } catch(e){}
+    box.addEventListener('change', function(){
+      try { localStorage.setItem('pb-'+box.id, box.checked ? '1' : '0'); } catch(e){}
+    });
+  });
+
+  // A few falling leaves behind the ticket.
+  var cv = document.getElementById('leaves');
+  if (!cv || !cv.getContext) return;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var ctx = cv.getContext('2d'), W=0, H=0, dpr = Math.min(window.devicePixelRatio||1, 2);
+  function size(){ var r = cv.getBoundingClientRect(); W=r.width; H=r.height; cv.width=W*dpr; cv.height=H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0); }
+  size(); window.addEventListener('resize', size);
+  var cs = getComputedStyle(document.documentElement);
+  var cols = ['--maple','--gold','--plum','--moss'].map(function(v){ return cs.getPropertyValue(v).trim() || '#c8501f'; });
+  var leaves = [];
+  for (var i=0;i<14;i++) leaves.push({x:Math.random()*W, y:Math.random()*H, r:5+Math.random()*7, sp:0.25+Math.random()*0.5, rot:Math.random()*6.28, vr:(Math.random()-.5)*0.02, sw:Math.random()*6.28, col:cols[i%cols.length]});
+  function leaf(p){
+    ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot); ctx.globalAlpha=.55; ctx.fillStyle=p.col;
+    ctx.beginPath(); ctx.moveTo(0,-p.r); ctx.quadraticCurveTo(p.r,0,0,p.r); ctx.quadraticCurveTo(-p.r,0,0,-p.r); ctx.fill();
+    ctx.restore();
+  }
+  function frame(){
+    ctx.clearRect(0,0,W,H);
+    leaves.forEach(function(p){
+      if (!reduce){ p.y += p.sp; p.sw += 0.01; p.x += Math.sin(p.sw)*0.4; p.rot += p.vr; if (p.y > H + 12){ p.y = -12; p.x = Math.random()*W; } }
+      leaf(p);
+    });
+    if (!reduce) requestAnimationFrame(frame);
+  }
+  frame();
+})();
+</script>
+
+</body>
+</html>
