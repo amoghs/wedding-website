@@ -433,7 +433,7 @@ footer{font-size:13px;color:var(--muted);text-align:center}
   var Q = [
     {q:"On the rings, what\u2019s the one you actually want?", h:"No hint. You know this one.", o:["A strict ring dip","A false-grip pull-up","A ring muscle-up","A tuck front lever","Ten clean ring rows"], k:"Mg=="},
     {q:"Which press are you grinding towards?", h:"Straight legs, slow, no kicking up.", o:["Bench press","A pike press to handstand","The espresso press, obviously","Press-ups, but sadder"], k:"MQ=="},
-    {q:"Where are you climbing walls these days?", h:"Same place you do yoga.", o:["Brooklyn Boulders","Chelsea Piers Fitness","The rocks in Central Park","Amogh\u2019s patience"], k:"MQ=="}
+    {q:"Hardest one. When Amogh was asked his favourite thing about you, what did he say first?", h:"No hint. You get one guess at what is in his head.", o:["Your laugh, and that you laugh at everything","The way you say the word \u201cpathetic\u201d","How you go all-in on a new obsession","How fast you flip to \u201cyou\u2019re stopping me sleeping\u201d"], k:"MQ=="}
   ];
   var nope = ["Nope! Drop and give me ten.","Wrong. That\u2019s a deload week.","Not quite. Chalk up and try again.","Amogh is shaking his head.","Miss. Back to the warm-up set."];
   var qi = 0, busy = false;
@@ -453,6 +453,10 @@ footer{font-size:13px;color:var(--muted);text-align:center}
           busy = true; b.classList.add('right'); qMsg.className = 'quiz-msg good';
           qMsg.textContent = qi < Q.length-1 ? 'Yes! Next one\u2026' : 'You did it. Unlocking\u2026';
           setTimeout(function(){ busy = false; qi++; if (qi < Q.length) showQ(); else win(); }, 900);
+        } else if (qi === Q.length - 1){
+          busy = true; b.classList.remove('wrong'); void b.offsetWidth; b.classList.add('wrong');
+          qMsg.textContent = 'Wrong \u2014 and that one was all or nothing. Back to the start.';
+          setTimeout(function(){ busy = false; qi = 0; showQ(); }, 1800);
         } else {
           b.classList.remove('wrong'); void b.offsetWidth; b.classList.add('wrong');
           qMsg.textContent = nope[Math.floor(Math.random()*nope.length)];
